@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="13">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Oguz_han Mirror</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"  crossorigin="anonymous">
+
+    <!--Roboto Font-->
+    <link href="{{ url_for('static', filename='css/roboto.ttf') }}" rel="stylesheet">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"  crossorigin="anonymous"></script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+
+    <!-- Time Script -->
+    <script>
+    function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+
+        if (h > 12) {h=h-12}; // 12 hour time
+
+        m = checkTime(m);
+        document.getElementById('time').innerHTML = "<p>" +
+        h + ":" + m + "</p>";
+        var t = setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        return i;
+    }
+</script>
+
+
+
+  </head>
+  <body onload="startTime()">
+        <!-- Begin page content -->
+    <div class="container-fluid">
+
+    <!-- TOP STUFF -->
+      <div class="row">
+
+        <div class="col">
+            <div id="weather">
+              <img src="static/images/{{ weather_pic }}" height="100" width="100">
+              <h4>{{ weather }}</h4>
+            </div>       
+        </div>
+        <div class="col text-right" style="float: right;" >
+            <img src="static/images/home_temp.jpg" height="80" width="80">
+            <h4><strong> Home</strong></h4>
+            <h4>Temperature: {{ temperature }}*C</h4>
+            <h4>Humidity: {{ humidity }}%</h4>
+            <p><i class="wi wi-night-sleet"></i></p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div id="time"  class="text-center"></div>
+          <div class="text-center"><h1>{{ date_today }}</h1></div>
+        <hr class="between" />
+          <hr class="between" />
+          <hr class="between" />
+            <h2 class="text-center"><u>Soňky habarlar</u>:</h2>
+           <h3 id="news_1" class="text-center" style="float: center;" >{{ news[0] }}</h3>
+           <h3 id="news_2" class="text-center" style="float: center;" >{{ news[1] }}</h3>
+           <h3 id="news_3" class="text-center" style="float: center;" >{{ news[2] }}</h3>
+           <h3 id="news_4" class="text-center" style="float: center;" >{{ news[3] }}</h3>
+           <h3 id="news_4" class="text-center" style="float: center;" >{{ news[4] }}</h3>
+     
+          <hr class="between" />
+          <hr class="between" />
+        </div>
+      </div>
+
+        <div class="row">
+          <div class="col">
+            <div id="agenda" class="text-left">
+              <h2><u>Şu günki Meýilnamalar:</u></h2>
+              {% for task in task_today %}
+                <h4>+ {{task.task}}</h4>
+              {% endfor %}
+              <!-- <h4><strong>Email: </strong>{{ email }}</h4>
+              <hr><p>Inbox:</p>
+              <p>From: gartaganov@gmail.com</p>
+              <p>Latest update of the "Mirror" </p>
+              <p>project, download the attachment</p>
+              <hr><p>From: mr.pena0707@gmail.com</p>
+              <p>RFID sistemany tazeledik!</p> -->
+              <hr class="between" />
+            <hr class="between" />
+            <hr class="between" />
+            <hr class="between" />
+          </div>
+        </div> 
+        <div class="col text-right">
+          <img src='static/images/iot_logo_cropped.jpg' height='300' width="450">
+        </div>
+      </div>
+
+     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>   
+    </div>
+
+  </body>
+</html>
