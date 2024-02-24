@@ -1,0 +1,11 @@
+<html>
+	<body> body {
+background-color: gray;
+}blac
+		<div class="row" align="center">
+			<div><IMG SRC='http://192.168.43.5:81/stream' style='width:310px; transform:rotate(180deg);'><IMG SRC='http://192.168.43.100:81/stream' style='width:310px; transform:rotate(180deg);'></div>
+		</div>
+	</body>
+	
+</html>
+
