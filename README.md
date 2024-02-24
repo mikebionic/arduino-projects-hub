@@ -24,3 +24,6 @@ If you have a project to share, feel free to create a branch and send me a merge
 - Sonar of the Blind person project
 - Suntracker bot project
 - Maze game with a joystic and 2 servos
+- Drug Reminder Cup
+- Gorjaw smart home elements
+- TV IR sender integration with ESP8266
