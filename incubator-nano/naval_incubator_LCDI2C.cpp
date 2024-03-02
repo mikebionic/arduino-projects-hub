@@ -8,7 +8,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 float dht_humi;
-unsigned int dht_temp;
+float dht_temp;
 
 Servo cyglyk_s;
 Servo motor_s;
@@ -20,7 +20,7 @@ int slow_servo_speed = 20;
 
 
 int motor_turn_time_h = 2;
-long motor_turn_time_ms = 10800000; ///2 * 60 * 60 * 1000;
+unsigned long motor_turn_time_ms = 60000;//10800000; ///2 * 60 * 60 * 1000;
 
 const int c_s_pin = 4;
 const int m_s_pin = 5;
@@ -31,8 +31,8 @@ const int sbtn_pin= 12;
 
 int pot_val;
 int setted_T;
-long temp_millis;
-long motor_millis;
+unsigned long temp_millis;
+unsigned long motor_millis;
 
 int motor_s_down_val = 165;
 int motor_s_up_val = 15;
@@ -64,7 +64,7 @@ void setup() {
     lcd.setCursor(4,0);
     lcd.print("Salam!!");
     lcd.setCursor(0,1);
-    lcd.print("Zayebal ;)");
+    lcd.print("Kubi ;)");
     
     //-----PINS-----
     pinMode(fan_pin,OUTPUT);
@@ -98,26 +98,20 @@ void loop() {
 
 // collect temperature info from sensor
 void temp(){
-    if ((temp_millis + 4000) < millis()){ 
+    if ((temp_millis + 5000) < millis()){ 
         dht_humi = dht.readHumidity();
         dht_temp = dht.readTemperature();
 
         lcd.setCursor(0,0);
-        lcd.print ("Tmp ");
+        lcd.print ("T ");
         lcd.print (dht_temp);
-        lcd.print ("*C   ");
+        lcd.print ("*C ");
         lcd.setCursor (0,1);
-        lcd.print ("Cyg ");
+        lcd.print ("H ");
         lcd.print (dht_humi);
         lcd.print ("%");
         lcd.setCursor (7,1);
         lcd.print ("     ");
-        Serial.print ("Temp = ");
-        Serial.print (dht_temp);
-        Serial.print (" *C ");
-        Serial.print ("Cyglylyk ");
-        Serial.print (dht_humi);
-        Serial.println (" %");
         temp_millis = millis();
     }
 }
@@ -127,7 +121,7 @@ void temp(){
 void temp_sazlayjy() {
     pot_val = analogRead(pot_pin);
     setted_T = map(pot_val,0,1023,30,41);
-    lcd.setCursor(9,0);
+    lcd.setCursor(11,0);
 
     // printing the elapsed time to turn the holder
     lcd.print(((motor_millis + motor_turn_time_ms) - millis())/1000);
@@ -135,11 +129,10 @@ void temp_sazlayjy() {
     lcd.setCursor(12,1);
     lcd.print(setted_T);
     lcd.print("*C  ");
-    Serial.println(setted_T);
     if (setted_T > dht_temp ) {
-        digitalWrite(lmp_pin, 0);
-    } else if (setted_T < dht_temp) {
         digitalWrite(lmp_pin, 1);
+    } else if (setted_T < dht_temp) {
+        digitalWrite(lmp_pin, 0);
     } 
 }
 
@@ -153,6 +146,11 @@ void humidity_controller(){
     else{
         cyglyk_s.write(cyglyk_s_down_val);
         digitalWrite(fan_pin, 0);
+    }
+    if (dht_temp > 40){
+      digitalWrite(fan_pin,1);
+    } else {
+      digitalWrite(fan_pin,0);
     }
 }
 
@@ -178,7 +176,7 @@ void servo_write_slow(){
       motor_s.write(slow_servo_state);
       slow_servo_state++;      
       slow_servo_millis = millis();
-    }  
+    }
   }
   if (slow_servo_state >= setted_slow_servo_state){
     if (slow_servo_millis + slow_servo_speed < millis()){
