@@ -28,3 +28,7 @@ If you have a project to share, feel free to create a branch and send me a merge
 - Drug Reminder Cup
 - Gorjaw smart home elements
 - TV IR sender integration with ESP8266
+- ESP Robocam with Flask server
+- Arduino Joystic to PC controller
+- Radar Project with ultrasonic, processing and python
+- Dog feeding mini smart home
